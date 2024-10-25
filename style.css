@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  background-color: #ccc;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  border: 2px solid #333;
+  cursor: grab;
+  user-select: none;
+  min-height: 100px;
+  transition: background-color 0.2s, color 0.2s, font-size 0.2s;
+  word-wrap: break-word;
+}
+
+.box:active {
+  cursor: grabbing;
+}
