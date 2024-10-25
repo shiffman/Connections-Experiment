@@ -1,7 +1,7 @@
 const boxes = document.querySelectorAll('.box');
 let draggedBox = null;
-
 const colors = ['goldenrod', 'forestgreen', 'royalblue', 'indigo'];
+
 updateColors();
 
 function updateColors() {
@@ -17,6 +17,8 @@ boxes.forEach((box) => {
   box.addEventListener('dragover', handleDragOver);
   box.addEventListener('drop', handleDrop);
   box.addEventListener('dragend', handleDragEnd);
+
+  // Mobile touch events
   box.addEventListener('touchstart', handleTouchStart);
   box.addEventListener('touchmove', handleTouchMove);
   box.addEventListener('touchend', handleTouchEnd);
@@ -24,17 +26,17 @@ boxes.forEach((box) => {
 
 function handleDragStart(e) {
   draggedBox = e.target;
-  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', e.target.innerHTML);
 }
 
 function handleDragOver(e) {
   e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
 }
 
 function handleDrop(e) {
   e.preventDefault();
   const targetBox = e.target;
+
   if (targetBox !== draggedBox && targetBox.classList.contains('box')) {
     const temp = draggedBox.innerHTML;
     draggedBox.innerHTML = targetBox.innerHTML;
@@ -48,31 +50,23 @@ function handleDragEnd() {
 }
 
 function handleTouchStart(e) {
-  e.preventDefault();
   draggedBox = e.target;
 }
 
 function handleTouchMove(e) {
   e.preventDefault();
-  const touch = e.touches[0];
-  const touched = document.elementFromPoint(touch.clientX, touch.clientY);
-
-  if (touched && touched.classList.contains('box') && touched !== draggedBox) {
-    touched.style.border = '2px dashed white';
-  }
 }
 
 function handleTouchEnd(e) {
-  e.preventDefault();
   const touch = e.changedTouches[0];
   const touched = document.elementFromPoint(touch.clientX, touch.clientY);
 
   if (touched && touched.classList.contains('box') && touched !== draggedBox) {
     const temp = draggedBox.innerHTML;
-    draggedBox.innerHTML = elementUnderTouch.innerHTML;
-    elementUnderTouch.innerHTML = temp;
+    draggedBox.innerHTML = touched.innerHTML;
+    touched.innerHTML = temp;
     updateColors();
   }
-  boxes.forEach((box) => (box.style.border = '2px solid #333'));
+
   draggedBox = null;
 }
