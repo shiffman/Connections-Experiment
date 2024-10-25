@@ -3,12 +3,24 @@ let draggedBox = null;
 
 const colors = ['goldenrod', 'forestgreen', 'royalblue', 'indigo'];
 updateColors();
+adjustFontSize();
 
 function updateColors() {
   boxes.forEach((box, index) => {
     const i = Math.floor(index / 4);
     box.style.backgroundColor = colors[i];
     box.style.color = 'white';
+  });
+}
+
+function adjustFontSize() {
+  boxes.forEach((box) => {
+    let fontSize = 16; // Starting font size
+    box.style.fontSize = `${fontSize}px`;
+    while (box.scrollWidth > box.clientWidth && fontSize > 10) {
+      fontSize -= 1;
+      box.style.fontSize = `${fontSize}px`;
+    }
   });
 }
 
@@ -40,6 +52,7 @@ function handleDrop(e) {
     draggedBox.innerHTML = targetBox.innerHTML;
     targetBox.innerHTML = temp;
     updateColors();
+    adjustFontSize();
   }
 }
 
@@ -69,6 +82,7 @@ function handleTouchEnd(e) {
     draggedBox.innerHTML = touched.innerHTML;
     touched.innerHTML = temp;
     updateColors();
+    adjustFontSize();
   }
 
   boxes.forEach((box) => (box.style.border = '2px solid #333'));
